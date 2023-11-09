@@ -1,18 +1,19 @@
-import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import React from 'react';
 
-import BookingsPage from './Pages/Bookings';
-import EventsPage from './Pages/Events';
-import AuthPage from './Pages/Auth';
+import App from "./App";
+import BookingsPage from './pages/Bookings';
+import EventsPage from './pages/Events';
+import AuthPage from './pages/Auth';
 
 export const router = createBrowserRouter([{
     id: 'root',
     path: '/',
-    element: <div><h1>Hello </h1><Outlet/></div>,
+    Component: App,
     children: [
         {
             index: true,
-            element: <Navigate to="/auth" />
+            element: <Navigate to="/auth"/>
         },
         {
             path: 'auth',
