@@ -1,0 +1,115 @@
+.auth {
+    width: 25rem;
+    max-width: 80%;
+    margin: 3rem auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-control {
+    padding-bottom: 0.75rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-control input {
+    width: 100%;
+    padding: 0.25rem 0.5rem;
+    font-size: 1rem;
+}
+
+.form-control .help-link {
+    margin-left: auto;
+}
+
+.auth__form a {
+    text-decoration: none;
+    color: var(--second-color);
+}
+
+.auth__form .submit-btn {
+    background-color: var(--main-color);
+    border: none;
+    color: white;
+    padding: 0.5rem 2rem;
+    width: max-content;
+    cursor: pointer;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+    border-radius: 0.25rem;
+}
+
+.form-view-toggler > button {
+    color: var(--second-color);
+    font-size: 1rem;
+    cursor: pointer;
+    user-select: none;
+    background-color: transparent;
+    border: none;
+    padding-left: 0.25rem;
+}
+
+.auth__other-auth-methods {
+    position: relative;
+    padding: 2rem 0;
+}
+
+.auth__other-auth-methods > .separator {
+    width: 100%;
+    height: 1px;
+    background-color: var(--main-color);
+}
+
+.auth__other-auth-methods > span {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 20px;
+    background: white;
+    padding: 0 1rem;
+    user-select: none;
+}
+
+.thirds-systems-methods {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.5rem 0;
+}
+
+.thirds-systems-methods button {
+    background-color: transparent;
+    border: 1px solid var(--second-color);
+    color: var(--second-color);
+    font-size: 1rem;
+    padding: 0.5rem 0;
+    width: 10rem;
+    cursor: pointer;
+    border-radius: 0.25rem;
+}
+
+.thirds-systems-methods button:hover {
+    color: var(--active-color);
+}
+
+.decor {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    z-index: -1;
+    background: linear-gradient(to right, var(--main-color), var(--third-color));
+    border-radius: 10%;
+}
+
+.left-decor {
+    left: -100px;
+    bottom: 2rem;
+    transform: rotate(30deg);
+}
+
+.right-decor {
+    right: -100px;
+    top: 2rem;
+    transform: rotate(60deg);
+}
