@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { Link } from "react-router-dom";
 
 import './Auth.css';
+import { useDispatch } from "react-redux";
+import { login } from "../state/auth.state";
 
 function AuthPage() {
     const emailRef = useRef(null);
@@ -11,6 +13,7 @@ function AuthPage() {
     const nameRef = useRef(null);
     const surnameRef = useRef(null);
     const [isLogin, setIsLogin] = useState(true)
+    const dispatch = useDispatch();
 
     function onToggleAuthForm() {
         setIsLogin(!isLogin);
@@ -35,6 +38,7 @@ function AuthPage() {
                 throw new Error('Failed')
             }
             const result = await res.json();
+            dispatch(login())
             console.log(result);
         } catch (err) {
             console.log(err)

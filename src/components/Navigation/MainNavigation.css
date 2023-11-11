@@ -6,18 +6,23 @@
     width: 100%;
     color: var(--main-second-color);
     padding: 0 3rem;
+    z-index: 10;
 }
 
 .main-navigation__nav {
     display: flex;
     padding-left: 3rem;
+    width: 100%;
 }
 
 .main-navigation__nav ul {
     list-style: none;
-    display: flex;
-    gap: 0.5rem;
+    display: grid;
+    width: 100%;
+    grid-gap: 0.5rem;
     align-items: center;
+    grid-auto-flow: column;
+    grid-template-columns: max-content;
 }
 
 .main-navigation__nav ul li a {
@@ -25,9 +30,22 @@
     color: var(--main-second-color);
 }
 
+.main-navigation__nav ul li.navigation {
+    justify-self: end;
+}
+
+.main-navigation__nav ul li button {
+    background-color: transparent;
+    border: none;
+    font-size: 1rem;
+    color: white;
+    cursor: pointer;
+}
+
 .main-navigation__nav ul li a:hover,
 .main-navigation__nav ul li a:active,
-.main-navigation__nav ul li a.active {
+.main-navigation__nav ul li a.active,
+.main-navigation__nav ul li button:hover{
     color: var(--active-color);
     transition: 1s;
 }

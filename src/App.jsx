@@ -5,11 +5,11 @@ import MainNavigation from "./components/Navigation/MainNavigation";
 
 import './App.css';
 
-const app = props => (
+const App = props => (
     <>
         <MainNavigation> </MainNavigation>
         <main><Outlet/></main>
     </>
 )
 
-export default app;
+export default App;
