@@ -105,7 +105,7 @@ function AuthPage() {
                         </div>
                     </>
                 }
-                <button className="submit-btn" type="submit">{isLogin ? 'Login' : 'Sign up'}</button>
+                <button className="btn primary-btn submit-btn" type="submit">{isLogin ? 'Login' : 'Sign up'}</button>
                 <div className="form-view-toggler">
                     {isLogin ? 'Don\'t h' : 'H'}ave an account?
                     <button type="button" onClick={onToggleAuthForm}>{isLogin ? 'Create new' : 'Login'}</button>
@@ -115,8 +115,8 @@ function AuthPage() {
                 <div className="separator"></div>
                 <span>Or login with</span>
                 <div className="thirds-systems-methods">
-                    <button>Google</button>
-                    <button>Github</button>
+                    <button className="btn primary-outline-btn">Google</button>
+                    <button className="btn primary-outline-btn">Github</button>
                 </div>
             </div>
             <div className="decor left-decor"></div>
