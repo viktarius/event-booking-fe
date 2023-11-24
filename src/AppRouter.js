@@ -3,11 +3,11 @@ import React from 'react';
 
 import App from "./App";
 import BookingsPage from './pages/Bookings';
-import EventsPage from './pages/Events';
+import EventsPage from './pages/Events/EventsPage';
 import AuthPage from './pages/Auth';
 import { useSelector } from "react-redux";
 
-const AppRouter = props => {
+const AppRouter = () => {
     const isUserAuthorized = useSelector(state => state.auth.isUserAuthorized)
 
     const router = createBrowserRouter([{

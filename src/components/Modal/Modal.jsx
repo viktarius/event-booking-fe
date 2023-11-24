@@ -7,7 +7,7 @@ function Modal(props) {
     return (
         createPortal(
             <>
-                <div className="backdrop"></div>
+                <div className="backdrop" onClick={props.closeOnClickOutside && props.onCancel}></div>
                 <div className="modal">
                     <header className="modal__header">
                         <h2>{props.title}</h2>

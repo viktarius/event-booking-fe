@@ -1,0 +1,9 @@
+.event-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: auto;
+    gap: 0.5rem;
+    width: 68.5rem;
+    max-width: 80%;
+    padding-top: 1rem;
+}

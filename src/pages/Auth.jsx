@@ -21,7 +21,7 @@ function AuthPage() {
 
     async function onFormSubmit(event) {
         event.preventDefault();
-        if(!isLogin && (passwordRef.current.value.trim() === '' || confirmPasswordRef.current.value !== passwordRef.current.value)) {
+        if (!isLogin && (passwordRef.current.value.trim() === '' || confirmPasswordRef.current.value !== passwordRef.current.value)) {
             console.log('Passwords is not valid');
             return;
         }
@@ -38,8 +38,8 @@ function AuthPage() {
                 throw new Error('Failed')
             }
             const result = await res.json();
-            dispatch(login())
             console.log(result);
+            dispatch(login({ token: result.data.login.token }));
         } catch (err) {
             console.log(err)
         }

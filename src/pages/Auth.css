@@ -18,6 +18,11 @@
     font-size: 1rem;
 }
 
+.form-control textarea {
+    padding: 0.25rem 0.5rem;
+    font-size: 1rem;
+}
+
 .form-control .help-link {
     margin-left: auto;
 }
