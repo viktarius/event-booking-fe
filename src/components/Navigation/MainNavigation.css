@@ -1,5 +1,6 @@
 .main-navigation {
-    position: fixed;
+    position: sticky;
+    top: 0;
     height: 3.5rem;
     background-color: var(--primary-color);
     display: flex;
@@ -45,8 +46,12 @@
 .main-navigation__nav ul li a:hover,
 .main-navigation__nav ul li a:active,
 .main-navigation__nav ul li a.active,
-.main-navigation__nav ul li button:hover{
+.main-navigation__nav ul li button:hover {
     color: var(--active-color);
     transition: 1s;
 }
 
+.login,
+.logout {
+    justify-self: end;
+}

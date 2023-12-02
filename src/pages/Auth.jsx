@@ -39,7 +39,8 @@ function AuthPage() {
             }
             const result = await res.json();
             console.log(result);
-            dispatch(login({ token: result.data.login.token }));
+            const path = isLogin ? 'login' : 'createUser';
+            dispatch(login({ token: result.data[path].token, userId: result.data[path].userId }));
         } catch (err) {
             console.log(err)
         }
@@ -105,7 +106,7 @@ function AuthPage() {
                         </div>
                     </>
                 }
-                <button className="btn primary-btn submit-btn" type="submit">{isLogin ? 'Login' : 'Sign up'}</button>
+                <button className="btn btn-primary submit-btn" type="submit">{isLogin ? 'Login' : 'Sign up'}</button>
                 <div className="form-view-toggler">
                     {isLogin ? 'Don\'t h' : 'H'}ave an account?
                     <button type="button" onClick={onToggleAuthForm}>{isLogin ? 'Create new' : 'Login'}</button>
@@ -115,8 +116,8 @@ function AuthPage() {
                 <div className="separator"></div>
                 <span>Or login with</span>
                 <div className="thirds-systems-methods">
-                    <button className="btn primary-outline-btn">Google</button>
-                    <button className="btn primary-outline-btn">Github</button>
+                    <button className="btn btn-primary-outline">Google</button>
+                    <button className="btn btn-primary-outline">Github</button>
                 </div>
             </div>
             <div className="decor left-decor"></div>

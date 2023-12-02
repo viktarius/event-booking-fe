@@ -15,7 +15,7 @@ function Modal(props) {
                     <section className="modal__content">{props.children}</section>
                     <footer className="modal__actions">
                         <button className="btn" onClick={props.onCancel}>Cancel</button>
-                        <button className="btn primary-btn" onClick={props.onConfirm}>Confirm</button>
+                        <button className="btn btn-primary" onClick={props.onConfirm}>Confirm</button>
                     </footer>
                 </div>
             </>,

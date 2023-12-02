@@ -2,5 +2,21 @@
     border: 1px solid var(--primary-color);
     padding: 1rem 2rem;
     border-radius: 0.25rem;
-    width: 34rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.event-card__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    align-items: end;
+}
+
+.event-info-title {
+    font-size: 1.5rem;
+}
+
+.event-info-price {
+    color: var(--second-color);
 }

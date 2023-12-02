@@ -10,10 +10,10 @@ function EventsPage() {
     const isUserAuthorized = useSelector(state => state.auth.isUserAuthorized);
 
     return (
-        <>
+        <div className="events">
             {isUserAuthorized && <EventCreator/>}
             <EventList/>
-        </>
+        </div>
     )
 }
 

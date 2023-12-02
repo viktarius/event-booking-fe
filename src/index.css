@@ -17,14 +17,13 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+body, html, #root {
+    height: 100%;
+}
+
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
-
-#root {
-    height: 100vh;
-    width: 100vw;
 }
 
 button.btn {
@@ -37,14 +36,31 @@ button.btn {
     width: max-content;
 }
 
-button.primary-outline-btn {
+button.btn-primary-outline {
     color: var(--primary-color);
     border: 1px solid var(--primary-color);
     background-color: transparent;
 }
 
-button.primary-btn {
+button.btn-primary {
     color: white;
     background-color: var(--primary-color);
     padding: 0.5rem 2rem;
+}
+
+::-webkit-scrollbar {
+    width: 0.5rem;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    z-index: 1024;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }

@@ -71,7 +71,7 @@ function EventCreator() {
     return (
         <div className="event-control">
             <h3 className="headline-3">Share your own Events!</h3>
-            <button className="btn primary-btn" onClick={openModelHandler}>Create Event!</button>
+            <button className="btn btn-primary" onClick={openModelHandler}>Create Event!</button>
             {isModalOpen &&
                 <EventCreatorModal onModalCancelHandler={onModalCancelHandler}
                                    onModalConfirmHandler={onModalConfirmHandler}

@@ -5,6 +5,7 @@ export const authSlice = createSlice({
     initialState: {
         isUserAuthorized: false,
         token: null,
+        userId: null,
     },
     reducers: {
         login: (state, { payload }) => ({
@@ -14,8 +15,9 @@ export const authSlice = createSlice({
         }),
         logout: (state) => ({
             ...state,
-            isUserAuthorized: false,
             token: null,
+            userId: null,
+            isUserAuthorized: false,
         }),
     },
 })

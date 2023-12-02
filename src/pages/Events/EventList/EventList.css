@@ -1,9 +1,9 @@
 .event-list {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
     margin: auto;
+    flex-direction: column;
     gap: 0.5rem;
-    width: 68.5rem;
+    width: 44rem;
     max-width: 80%;
     padding-top: 1rem;
 }
