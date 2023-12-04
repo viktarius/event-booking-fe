@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { setEvents } from "../../../state/events.state";
-import EventCard from "../EventCard/EventCard";
 import Spinner from "../../../components/Spinner/Spinner";
+import EventCard from "../EventCard/EventCard";
+import EventDetailsModal from "../EventDetailsModal/EventDetailsModal";
 
 import "./EventList.css"
 
@@ -12,6 +13,8 @@ function EventList() {
     const authUserId = useSelector(state => state.auth.userId);
     const dispatch = useDispatch();
     const [isLoading, setLoading] = useState(false);
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [currentEventDetails, setCurrentEventDetails] = useState(null);
 
     useEffect(() => {
         const loadEvents = async () => {
@@ -53,18 +56,36 @@ function EventList() {
         loadEvents().catch(console.error);
     }, [])
 
+    function onShowDetailHandler(eventInfo) {
+        setModalOpen(true);
+        setCurrentEventDetails(eventInfo);
+    }
+
+    function onCloseDetailsHandler() {
+        setModalOpen(false);
+        setCurrentEventDetails(null);
+    }
+
+    function onBookEventHandler(eventId) {
+        console.log(eventId);
+    }
+
     return (
         <>
             {isLoading ? <Spinner/> : <div className="event-list">
-                {events.map(({ _id, title, price, description, creator }) => (
-                    <EventCard key={_id}
-                               title={title}
-                               price={price}
-                               description={description}
-                               creator={creator}
-                               authUserId={authUserId}/>))}
-            </div>
-            }
+                {events.map((eventInfo) => (
+                    <EventCard key={eventInfo._id}
+                               eventInfo={eventInfo}
+                               authUserId={authUserId}
+                               onShowDetailHandler={onShowDetailHandler}
+                               onBookEventHandler={onBookEventHandler}/>))}
+            </div>}
+            {isModalOpen && currentEventDetails &&
+                <EventDetailsModal _id={currentEventDetails._id}
+                                   title={currentEventDetails.title}
+                                   description={currentEventDetails.description}
+                                   onCloseDetailsHandler={onCloseDetailsHandler}
+                                   onBookEventHandler={onBookEventHandler}/>}
         </>
 
     )

@@ -3,19 +3,19 @@ import { createPortal } from "react-dom";
 
 import './Modal.css';
 
-function Modal(props) {
+function Modal({ title, children, closeOnClickOutside, onCancel, onConfirm, confirmText, cancelText }) {
     return (
         createPortal(
             <>
-                <div className="backdrop" onClick={props.closeOnClickOutside && props.onCancel}></div>
+                <div className="backdrop" onClick={closeOnClickOutside && onCancel}></div>
                 <div className="modal">
                     <header className="modal__header">
-                        <h2>{props.title}</h2>
+                        <h2>{title}</h2>
                     </header>
-                    <section className="modal__content">{props.children}</section>
+                    <section className="modal__content">{children}</section>
                     <footer className="modal__actions">
-                        <button className="btn" onClick={props.onCancel}>Cancel</button>
-                        <button className="btn btn-primary" onClick={props.onConfirm}>Confirm</button>
+                        <button className="btn" onClick={onCancel}>{cancelText || 'Cancel'}</button>
+                        <button className="btn btn-primary" onClick={onConfirm}>{confirmText || 'Confirm'}</button>
                     </footer>
                 </div>
             </>,
