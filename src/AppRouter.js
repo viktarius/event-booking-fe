@@ -2,7 +2,7 @@ import { createBrowserRouter, Navigate, redirect, RouterProvider } from 'react-r
 import React from 'react';
 
 import App from "./App";
-import BookingsPage from './pages/Bookings';
+import BookingsPage from './pages/Bookings/BookingsPage';
 import EventsPage from './pages/Events/EventsPage';
 import AuthPage from './pages/Auth';
 import { useSelector } from "react-redux";

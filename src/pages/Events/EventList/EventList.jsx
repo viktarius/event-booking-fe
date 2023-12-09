@@ -7,11 +7,14 @@ import EventCard from "../EventCard/EventCard";
 import EventDetailsModal from "../EventDetailsModal/EventDetailsModal";
 
 import "./EventList.css"
+import { useNavigate } from "react-router-dom";
 
 function EventList() {
     const events = useSelector(state => state.data.events);
     const authUserId = useSelector(state => state.auth.userId);
+    const token = useSelector(state => state.auth.token);
     const dispatch = useDispatch();
+    const navigate = useNavigate()
     const [isLoading, setLoading] = useState(false);
     const [isModalOpen, setModalOpen] = useState(false);
     const [currentEventDetails, setCurrentEventDetails] = useState(null);
@@ -20,20 +23,20 @@ function EventList() {
         const loadEvents = async () => {
             const requestBody = {
                 query: `
-                query {
-                    events {
-                        _id
-                        title
-                        description
-                        price
-                        date
-                        creator {
+                    query {
+                        events {
                             _id
-                            email
+                            title
+                            description
+                            price
+                            date
+                            creator {
+                                _id
+                                email
+                            }
                         }
                     }
-                }
-            `
+                `
             };
             try {
                 setLoading(true);
@@ -66,8 +69,33 @@ function EventList() {
         setCurrentEventDetails(null);
     }
 
-    function onBookEventHandler(eventId) {
-        console.log(eventId);
+    async function onBookEventHandler(eventId) {
+        if (!authUserId) {
+            navigate('/auth');
+        }
+        const requestBody = {
+            query: `
+                mutation {
+                    bookEvent (eventId: "${eventId}") {
+                        _id
+                        createdAt
+                        event {
+                            _id
+                            title
+                        }
+                    }
+                }
+            `
+        };
+        const res = await fetch('http://localhost:3000/graphql', {
+            method: 'POST',
+            body: JSON.stringify(requestBody),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Barer ' + token
+            }
+        })
+        onCloseDetailsHandler();
     }
 
     return (
@@ -81,9 +109,8 @@ function EventList() {
                                onBookEventHandler={onBookEventHandler}/>))}
             </div>}
             {isModalOpen && currentEventDetails &&
-                <EventDetailsModal _id={currentEventDetails._id}
-                                   title={currentEventDetails.title}
-                                   description={currentEventDetails.description}
+                <EventDetailsModal event={currentEventDetails}
+                                   authUserId={authUserId}
                                    onCloseDetailsHandler={onCloseDetailsHandler}
                                    onBookEventHandler={onBookEventHandler}/>}
         </>

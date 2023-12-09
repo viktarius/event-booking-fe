@@ -1,7 +1,8 @@
 import React from 'react';
+import BookingList from "./BookingList/BookingList";
 
 function BookingsPage() {
-    return (<h1>The Bookings Page works!</h1>)
+    return (<BookingList />)
 }
 
 export default BookingsPage;
