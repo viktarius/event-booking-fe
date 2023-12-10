@@ -2,20 +2,33 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import './MainNavigation.css';
 import { logout } from "../../state/auth.state";
 
+import './MainNavigation.css';
+
 const Routes = () => {
-    const isUserAuthorized = useSelector(state => state.auth.isUserAuthorized);
+    const isAuthorized = useSelector(state => state.auth.isAuthorized);
     const dispatch = useDispatch();
+
+    async function onLogoutHandler() {
+        try {
+            await fetch('http://localhost:3000/logout', {
+                method: 'GET',
+                credentials: 'include'
+            });
+            dispatch(logout());
+        } catch (err) {
+            console.error(err)
+        }
+    }
 
     return (
         <ul>
             <li><NavLink to="/events">Events</NavLink></li>
-            {isUserAuthorized && <li><NavLink to="/bookings">Bookings</NavLink></li>}
-            {!isUserAuthorized && <li className="login"><NavLink to="/auth">Login</NavLink></li>}
-            {isUserAuthorized && <li className="logout">
-                <button onClick={() => dispatch(logout())}>Logout</button>
+            {isAuthorized && <li><NavLink to="/bookings">Bookings</NavLink></li>}
+            {!isAuthorized && <li className="login"><NavLink to="/auth">Login</NavLink></li>}
+            {isAuthorized && <li className="logout">
+                <button onClick={onLogoutHandler}>Logout</button>
             </li>}
         </ul>
     )

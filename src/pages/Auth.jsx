@@ -2,9 +2,10 @@ import React, { useRef } from 'react';
 import { useState } from 'react';
 import { Link } from "react-router-dom";
 
-import './Auth.css';
 import { useDispatch } from "react-redux";
 import { login } from "../state/auth.state";
+
+import './Auth.css';
 
 function AuthPage() {
     const emailRef = useRef(null);
@@ -27,9 +28,10 @@ function AuthPage() {
         }
         const requestBody = isLogin ? getLoginQuery() : getSignupQuery();
         try {
-            const res = await fetch('http://localhost:3000/graphql', {
+            const res = await fetch(`http://localhost:3000/${isLogin ? 'login' : 'register'}`, {
                 method: 'POST',
                 body: JSON.stringify(requestBody),
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -38,43 +40,27 @@ function AuthPage() {
                 throw new Error('Failed')
             }
             const result = await res.json();
-            console.log(result);
-            const path = isLogin ? 'login' : 'createUser';
-            dispatch(login({ token: result.data[path].token, userId: result.data[path].userId }));
+            const { isAuthorized, userId } = result;
+            dispatch(login({ isAuthorized, userId }))
         } catch (err) {
-            console.log(err)
+            console.error(err)
         }
     }
 
     function getLoginQuery() {
         return {
-            query: `
-                query {
-                    login(email: "${emailRef.current.value}", password: "${passwordRef.current.value}") {
-                        userId
-                        token
-                    }
-                }
-            `
-        }
+            email: emailRef.current.value,
+            password: passwordRef.current.value
+        };
     }
 
     function getSignupQuery() {
         return {
-            query: `
-                mutation {
-                    createUser(body: { 
-                        email: "${emailRef.current.value}", 
-                        password: "${passwordRef.current.value}",
-                        name: "${nameRef.current.value}"
-                        surname: "${surnameRef.current.value}"
-                    }) {
-                        userId
-                        token
-                    }
-                }
-            `
-        }
+            email: emailRef.current.value,
+            password: passwordRef.current.value,
+            name: nameRef.current.value,
+            surname: surnameRef.current.value,
+        };
     }
 
     return (

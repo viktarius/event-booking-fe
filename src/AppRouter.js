@@ -8,7 +8,7 @@ import AuthPage from './pages/Auth';
 import { useSelector } from "react-redux";
 
 const AppRouter = () => {
-    const isUserAuthorized = useSelector(state => state.auth.isUserAuthorized)
+    const isAuthorized = useSelector(state => state.auth.isAuthorized)
 
     const router = createBrowserRouter([{
         id: 'root',
@@ -18,15 +18,15 @@ const AppRouter = () => {
             {
                 index: true,
                 element: <>
-                    {isUserAuthorized && <Navigate from="/auth" to="/events"> </Navigate>}
-                    {!isUserAuthorized && <Navigate from="/" to="/auth"></Navigate>}
+                    {isAuthorized && <Navigate from="/auth" to="/events"> </Navigate>}
+                    {!isAuthorized && <Navigate from="/" to="/auth"></Navigate>}
                 </>
             },
             {
                 path: 'auth',
                 Component: AuthPage,
                 loader: () => {
-                    if (isUserAuthorized) {
+                    if (isAuthorized) {
                         return redirect('/events');
                     }
                     return null;
@@ -36,7 +36,7 @@ const AppRouter = () => {
                 path: 'bookings',
                 Component: BookingsPage,
                 loader: () => {
-                    if (!isUserAuthorized) {
+                    if (!isAuthorized) {
                         return redirect('/auth');
                     }
                     return null;

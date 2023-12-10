@@ -1,6 +1,5 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 
 import Spinner from "../../../components/Spinner/Spinner";
 import BookingCard from "../BookingCard/BookingCard";
@@ -8,7 +7,6 @@ import BookingCard from "../BookingCard/BookingCard";
 const BookingList = () => {
     const [isLoading, setLoading] = useState(false);
     const [bookings, setBookings] = useState([]);
-    const token = useSelector(state => state.auth.token);
 
     useEffect(() => {
         const loadBookings = async () => {
@@ -33,11 +31,18 @@ const BookingList = () => {
                     body: JSON.stringify(requestBody),
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Barer ' + token
-                    }
+                    },
+                    credentials: 'include',
                 })
-                const { data: { bookings } } = await res.json();
+                // TODO: use this approach in other places
+                const result = await res.json();
+                if(res.status !== 200) {
+                    throw new Error(result.errors[0].message);
+                }
+                const { data: { bookings } } = result;
                 setBookings(bookings);
+            } catch (err) {
+                console.error(err)
             } finally {
                 setLoading(false);
             }

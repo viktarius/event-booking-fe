@@ -3,21 +3,18 @@ import { createSlice } from '@reduxjs/toolkit'
 export const authSlice = createSlice({
     name: 'Auth',
     initialState: {
-        isUserAuthorized: false,
-        token: null,
+        isAuthorized: false,
         userId: null,
     },
     reducers: {
         login: (state, { payload }) => ({
             ...state,
             ...payload,
-            isUserAuthorized: true,
         }),
         logout: (state) => ({
             ...state,
-            token: null,
             userId: null,
-            isUserAuthorized: false,
+            isAuthorized: false,
         }),
     },
 })

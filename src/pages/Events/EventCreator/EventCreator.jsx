@@ -1,14 +1,14 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 
 import EventCreatorModal from "../EventCreatorModal/EventCreatorModal";
 
-import "./EventCreator.css";
-import { useDispatch, useSelector } from "react-redux";
 import { addEvent } from "../../../state/events.state";
+
+import "./EventCreator.css";
 
 function EventCreator() {
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const token = useSelector(state => state.auth.token);
     const dispatch = useDispatch();
 
     function openModelHandler() {
@@ -24,8 +24,8 @@ function EventCreator() {
                 body: JSON.stringify(requestBody),
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Barer ' + token,
-                }
+                },
+                credentials: 'include'
             })
             if (res.status !== 200 && res.status !== 201) {
                 throw new Error('Failed')
@@ -34,7 +34,7 @@ function EventCreator() {
             dispatch(addEvent(result.data.createEvent))
             console.log(result)
         } catch (err) {
-            console.log(err)
+            console.error(err)
         }
         setIsModalOpen(false);
     }

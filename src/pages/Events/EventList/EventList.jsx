@@ -12,7 +12,6 @@ import { useNavigate } from "react-router-dom";
 function EventList() {
     const events = useSelector(state => state.data.events);
     const authUserId = useSelector(state => state.auth.userId);
-    const token = useSelector(state => state.auth.token);
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const [isLoading, setLoading] = useState(false);
@@ -45,7 +44,8 @@ function EventList() {
                     body: JSON.stringify(requestBody),
                     headers: {
                         'Content-Type': 'application/json'
-                    }
+                    },
+                    credentials: 'include'
                 })
                 if (res.status !== 200 && res.status !== 201) {
                     throw new Error('Failed')
@@ -87,14 +87,18 @@ function EventList() {
                 }
             `
         };
-        const res = await fetch('http://localhost:3000/graphql', {
-            method: 'POST',
-            body: JSON.stringify(requestBody),
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Barer ' + token
-            }
-        })
+        try {
+            await fetch('http://localhost:3000/graphql', {
+                method: 'POST',
+                body: JSON.stringify(requestBody),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+            })
+        } catch (err) {
+            console.error(err)
+        }
         onCloseDetailsHandler();
     }
 
