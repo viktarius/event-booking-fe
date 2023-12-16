@@ -7,11 +7,11 @@ import EventList from "./EventList/EventList";
 import "./EventsPage.css";
 
 function EventsPage() {
-    const isUserAuthorized = useSelector(state => state.auth.isUserAuthorized);
+    const isAuthorized = useSelector(state => state.auth.isAuthorized);
 
     return (
         <div className="events">
-            {isUserAuthorized && <EventCreator/>}
+            {isAuthorized && <EventCreator/>}
             <EventList/>
         </div>
     )
