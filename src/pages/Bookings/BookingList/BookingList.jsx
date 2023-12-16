@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import Spinner from "../../../components/Spinner/Spinner";
+import EmptyList from "../../../components/EmptyList/EmptyList";
 import BookingCard from "../BookingCard/BookingCard";
 
 import './BookingList.css'
@@ -85,21 +86,19 @@ const BookingList = () => {
     }
 
     return (
-        <div className="bookings">
+        <>
             {isLoading ? <Spinner/> :
                 bookings.length === 0 ?
-                    <div className="empty-list">
-                        <h3 className="headline-3">You don't have any bookings yet</h3>
-                        <span>go to: <NavLink to="/events">Events</NavLink></span>
-                    </div> :
+                    <EmptyList message="You don't have any bookings yet">
+                        <span className="empty-bookings-handler">go to: <NavLink to="/events">Events</NavLink></span>
+                    </EmptyList> :
                     <div className="booking-list">
-                        {bookings.map(booking => <BookingCard
-                            key={booking._id}
-                            booking={booking}
-                            onCancel={onCancelHandler}/>)}
+                        {bookings.map(booking => <BookingCard key={booking._id}
+                                                              booking={booking}
+                                                              onCancel={onCancelHandler}/>)}
                     </div>
             }
-        </div>
+        </>
     )
 }
 

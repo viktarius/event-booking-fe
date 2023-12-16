@@ -1,0 +1,14 @@
+.empty-list {
+    display: flex;
+    margin: auto;
+    width: 34rem;
+    border: 1px solid var(--primary-color);
+    padding: 1rem 2rem;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.empty-list .headline-3 {
+    padding-bottom: 0.5rem;
+}

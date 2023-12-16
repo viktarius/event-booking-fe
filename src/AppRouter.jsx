@@ -1,16 +1,20 @@
+import React, { useEffect, useState } from 'react';
 import { createBrowserRouter, Navigate, redirect, RouterProvider } from 'react-router-dom';
-import React from 'react';
+import { useDispatch, useSelector } from "react-redux";
 
+import { login } from "./state/auth.state";
 import App from "./App";
 import BookingsPage from './pages/Bookings/BookingsPage';
 import EventsPage from './pages/Events/EventsPage';
 import AuthPage from './pages/Auth';
-import { useSelector } from "react-redux";
+import Spinner from "./components/Spinner/Spinner";
 
 const AppRouter = () => {
-    const isAuthorized = useSelector(state => state.auth.isAuthorized)
+    const dispatch = useDispatch();
+    const isAuthorized = useSelector(state => state.auth.isAuthorized);
+    const [isAppLoaded, setAppLoaded] = useState(false);
 
-    const router = createBrowserRouter([{
+    const getRouter = () => createBrowserRouter([{
         id: 'root',
         path: '/',
         Component: App,
@@ -49,7 +53,32 @@ const AppRouter = () => {
         ]
     }])
 
-    return <RouterProvider router={router}/>;
+    useEffect(() => {
+        const authCheck = async () => {
+            try {
+                const res = await fetch('http://localhost:3000/auth', {
+                    method: 'GET',
+                    credentials: 'include',
+                })
+
+                const result = await res.json();
+                const { isAuthorized, userId } = result;
+                dispatch(login({ isAuthorized, userId }))
+            } catch (err) {
+                console.error(err)
+            } finally {
+                setAppLoaded(true);
+            }
+        }
+
+        authCheck();
+    }, [dispatch])
+
+
+    return (<>
+        {!isAppLoaded && <Spinner/>}
+        {isAppLoaded && <RouterProvider router={getRouter()}/>}
+    </>)
 }
 
 

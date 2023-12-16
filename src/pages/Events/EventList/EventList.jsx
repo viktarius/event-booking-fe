@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import { setEvents } from "../../../state/events.state";
 import Spinner from "../../../components/Spinner/Spinner";
+import EmptyList from "../../../components/EmptyList/EmptyList";
 import EventCard from "../EventCard/EventCard";
 import EventDetailsModal from "../EventDetailsModal/EventDetailsModal";
 
 import "./EventList.css"
-import { useNavigate } from "react-router-dom";
 
 function EventList() {
-    const events = useSelector(state => state.data.events);
+    const events = useSelector(state => state.events.data);
     const authUserId = useSelector(state => state.auth.userId);
     const dispatch = useDispatch();
     const navigate = useNavigate()
@@ -57,7 +58,7 @@ function EventList() {
             }
         }
         loadEvents().catch(console.error);
-    }, [])
+    }, [dispatch])
 
     function onShowDetailHandler(eventInfo) {
         setModalOpen(true);
@@ -104,14 +105,17 @@ function EventList() {
 
     return (
         <>
-            {isLoading ? <Spinner/> : <div className="event-list">
-                {events.map((eventInfo) => (
-                    <EventCard key={eventInfo._id}
-                               eventInfo={eventInfo}
-                               authUserId={authUserId}
-                               onShowDetailHandler={onShowDetailHandler}
-                               onBookEventHandler={onBookEventHandler}/>))}
-            </div>}
+            {isLoading ? <Spinner/> :
+                events.length === 0 ?
+                    <EmptyList message="Unfortunately, we were unable to load the list of events"/> :
+                    <div className="event-list">
+                        {events.map((eventInfo) => (
+                            <EventCard key={eventInfo._id}
+                                       eventInfo={eventInfo}
+                                       authUserId={authUserId}
+                                       onShowDetailHandler={onShowDetailHandler}
+                                       onBookEventHandler={onBookEventHandler}/>))}
+                    </div>}
             {isModalOpen && currentEventDetails &&
                 <EventDetailsModal event={currentEventDetails}
                                    authUserId={authUserId}
