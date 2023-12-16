@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
-import EventCreatorModal from "../EventCreatorModal/EventCreatorModal";
-
+import { getCreateEventQuery } from "../../../core/queries";
 import { addEvent } from "../../../state/events.state";
+import EventCreatorModal from "../EventCreatorModal/EventCreatorModal";
 
 import "./EventCreator.css";
 
@@ -16,12 +16,10 @@ function EventCreator() {
     }
 
     async function onModalConfirmHandler(data) {
-        const requestBody = getCreateEventQuery(data);
-        console.log(requestBody);
         try {
             const res = await fetch('http://localhost:3000/graphql', {
                 method: 'POST',
-                body: JSON.stringify(requestBody),
+                body: JSON.stringify(getCreateEventQuery(data)),
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -32,7 +30,6 @@ function EventCreator() {
             }
             const result = await res.json();
             dispatch(addEvent(result.data.createEvent))
-            console.log(result)
         } catch (err) {
             console.error(err)
         }
@@ -41,31 +38,6 @@ function EventCreator() {
 
     function onModalCancelHandler() {
         setIsModalOpen(false);
-    }
-
-    function getCreateEventQuery({ title, price, date, description }) {
-        return {
-            query: `
-                mutation {
-                    createEvent(body: { 
-                        title: "${title}", 
-                        price: ${+price},
-                        date: "${new Date(date).toISOString()}"
-                        description: "${description}"
-                    }) {
-                        _id
-                        title
-                        price
-                        date
-                        description
-                        creator {
-                            _id
-                            email
-                        }
-                    }   
-                }
-            `
-        }
     }
 
     return (

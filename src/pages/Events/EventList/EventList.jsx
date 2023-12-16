@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+import { getEventListQuery, bookEventQuery } from "../../../core/queries";
 import { setEvents } from "../../../state/events.state";
 import Spinner from "../../../components/Spinner/Spinner";
 import EmptyList from "../../../components/EmptyList/EmptyList";
@@ -21,28 +22,11 @@ function EventList() {
 
     useEffect(() => {
         const loadEvents = async () => {
-            const requestBody = {
-                query: `
-                    query {
-                        events {
-                            _id
-                            title
-                            description
-                            price
-                            date
-                            creator {
-                                _id
-                                email
-                            }
-                        }
-                    }
-                `
-            };
             try {
                 setLoading(true);
                 const res = await fetch('http://localhost:3000/graphql', {
                     method: 'POST',
-                    body: JSON.stringify(requestBody),
+                    body: JSON.stringify(getEventListQuery()),
                     headers: {
                         'Content-Type': 'application/json'
                     },
@@ -74,24 +58,10 @@ function EventList() {
         if (!authUserId) {
             navigate('/auth');
         }
-        const requestBody = {
-            query: `
-                mutation {
-                    bookEvent (eventId: "${eventId}") {
-                        _id
-                        createdAt
-                        event {
-                            _id
-                            title
-                        }
-                    }
-                }
-            `
-        };
         try {
             await fetch('http://localhost:3000/graphql', {
                 method: 'POST',
-                body: JSON.stringify(requestBody),
+                body: JSON.stringify(bookEventQuery({ eventId })),
                 headers: {
                     'Content-Type': 'application/json',
                 },

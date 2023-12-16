@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 
+import { getBookingListQuery, cancelBookingQuery } from "../../../core/queries";
 import Spinner from "../../../components/Spinner/Spinner";
 import EmptyList from "../../../components/EmptyList/EmptyList";
 import BookingCard from "../BookingCard/BookingCard";
@@ -14,25 +15,11 @@ const BookingList = () => {
 
     useEffect(() => {
         const loadBookings = async () => {
-            const requestBody = {
-                query: `
-                    query {
-                        bookings {
-                            _id
-                            event {
-                                _id
-                                title
-                                date
-                            }
-                        }
-                    }
-                `
-            }
             try {
                 setLoading(true);
                 const res = await fetch('http://localhost:3000/graphql', {
                     method: 'POST',
-                    body: JSON.stringify(requestBody),
+                    body: JSON.stringify(getBookingListQuery()),
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -55,21 +42,10 @@ const BookingList = () => {
     }, [])
 
     const onCancelHandler = async (bookingId) => {
-        const requestBody = {
-            query: `
-                mutation {
-                    cancelBooking (bookingId: "${bookingId}") {
-                        _id
-                        title
-                        date
-                    }
-                }
-            `
-        }
         try {
             const res = await fetch('http://localhost:3000/graphql', {
                 method: 'POST',
-                body: JSON.stringify(requestBody),
+                body: JSON.stringify(cancelBookingQuery({ bookingId })),
                 headers: {
                     'Content-Type': 'application/json',
                 },
