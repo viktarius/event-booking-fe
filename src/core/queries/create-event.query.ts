@@ -1,4 +1,12 @@
-export const getCreateEventQuery = ({ title, price, date, description }) => ({
+import { IEventRequest } from '../../pages/Events/models/event.model';
+import { IGraphQlQuery } from './query.model';
+
+export const getCreateEventQuery = ({
+                                        title,
+                                        price,
+                                        date,
+                                        description
+                                    }: IEventRequest): IGraphQlQuery<IEventRequest> => ({
     query: `
         mutation CreateEvent ($title: String!, $description: String!, $price: Float!, $date: String! ) {
             createEvent(body: { title: $title, price: $price, date: $date, description: $description }) {
@@ -17,7 +25,7 @@ export const getCreateEventQuery = ({ title, price, date, description }) => ({
     variables: {
         title,
         description,
+        price,
         date: new Date(date).toISOString(),
-        price: +price,
     }
 })

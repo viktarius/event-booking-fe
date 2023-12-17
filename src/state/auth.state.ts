@@ -1,11 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+interface AuthState {
+    isAuthorized: boolean;
+    userId: null | string;
+}
+
+const initialState: AuthState = {
+    isAuthorized: false,
+    userId: null,
+};
+
 export const authSlice = createSlice({
     name: '[AUTH]',
-    initialState: {
-        isAuthorized: false,
-        userId: null,
-    },
+    initialState,
     reducers: {
         login: (state, { payload }) => ({
             ...state,

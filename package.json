@@ -12,7 +12,14 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "react-error-overlay": "6.0.9"
+    "@types/jest": "^29.5.11",
+    "@types/node": "^20.10.4",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "react-error-overlay": "6.0.9",
+    "typescript": "^5.3.3"
   },
   "scripts": {
     "start": "set PORT=4000 && react-scripts start",
@@ -24,7 +31,11 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "no-use-before-define": "off",
+      "@typescript-eslint/no-use-before-define": ["error"]
+    }
   },
   "browserslist": {
     "production": [

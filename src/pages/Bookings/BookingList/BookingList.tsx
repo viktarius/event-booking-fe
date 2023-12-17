@@ -6,12 +6,13 @@ import { getBookingListQuery, cancelBookingQuery } from "../../../core/queries";
 import Spinner from "../../../components/Spinner/Spinner";
 import EmptyList from "../../../components/EmptyList/EmptyList";
 import BookingCard from "../BookingCard/BookingCard";
+import { IBooking } from '../models/booking.model';
 
 import './BookingList.css'
 
 const BookingList = () => {
-    const [isLoading, setLoading] = useState(false);
-    const [bookings, setBookings] = useState([]);
+    const [isLoading, setLoading] = useState<boolean>(false);
+    const [bookings, setBookings] = useState<IBooking[]>([]);
 
     useEffect(() => {
         const loadBookings = async () => {
@@ -41,7 +42,7 @@ const BookingList = () => {
         loadBookings();
     }, [])
 
-    const onCancelHandler = async (bookingId) => {
+    const onCancelHandler = async (bookingId: string) => {
         try {
             const res = await fetch('http://localhost:3000/graphql', {
                 method: 'POST',
@@ -63,15 +64,15 @@ const BookingList = () => {
 
     return (
         <>
-            {isLoading ? <Spinner/> :
+            { isLoading ? <Spinner/> :
                 bookings.length === 0 ?
                     <EmptyList message="You don't have any bookings yet">
                         <span className="empty-bookings-handler">go to: <NavLink to="/events">Events</NavLink></span>
                     </EmptyList> :
                     <div className="booking-list">
-                        {bookings.map(booking => <BookingCard key={booking._id}
-                                                              booking={booking}
-                                                              onCancel={onCancelHandler}/>)}
+                        { bookings.map(booking => <BookingCard key={ booking._id }
+                                                               booking={ booking }
+                                                               onCancel={ onCancelHandler }/>) }
                     </div>
             }
         </>

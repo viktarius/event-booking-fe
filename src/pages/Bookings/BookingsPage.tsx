@@ -3,7 +3,7 @@ import BookingList from "./BookingList/BookingList";
 
 import "./BookingsPage.css";
 
-const BookingsPage = () => < div className="bookings">
+const BookingsPage = () => <div className="bookings">
     <BookingList/>
 </div>
 

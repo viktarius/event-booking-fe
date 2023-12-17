@@ -1,10 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { IEventResponse } from '../pages/Events/models/event.model';
+
+interface EventState {
+    data: IEventResponse[];
+}
+
+const initialState: EventState = {
+    data: [],
+}
 
 export const eventsSlice = createSlice({
     name: '[EVENTS]',
-    initialState: {
-        data: [],
-    },
+    initialState,
     reducers: {
         setEvents: (state, { payload }) => ({
             ...state,

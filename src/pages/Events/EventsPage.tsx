@@ -1,17 +1,18 @@
 import React from 'react';
 import { useSelector } from "react-redux";
 
+import { RootState } from '../../store';
 import EventCreator from "./EventCreator/EventCreator";
 import EventList from "./EventList/EventList";
 
 import "./EventsPage.css";
 
-function EventsPage() {
-    const isAuthorized = useSelector(state => state.auth.isAuthorized);
+const EventsPage = () => {
+    const isAuthorized = useSelector(({ auth: { isAuthorized } }: RootState) => isAuthorized);
 
     return (
         <div className="events">
-            {isAuthorized && <EventCreator/>}
+            { isAuthorized && <EventCreator/> }
             <EventList/>
         </div>
     )

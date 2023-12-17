@@ -5,13 +5,9 @@ import MainNavigation from "./components/Navigation/MainNavigation";
 
 import './App.css';
 
-const App = () => {
-    return (
-        <>
-            <MainNavigation> </MainNavigation>
-            <main><Outlet/></main>
-        </>
-    )
-}
+const App = () => (<>
+    <MainNavigation/>
+    <main><Outlet/></main>
+</>)
 
 export default App;

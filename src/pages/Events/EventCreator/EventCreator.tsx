@@ -4,18 +4,15 @@ import { useDispatch } from "react-redux";
 import { getCreateEventQuery } from "../../../core/queries";
 import { addEvent } from "../../../state/events.state";
 import EventCreatorModal from "../EventCreatorModal/EventCreatorModal";
+import { IEventRequest } from '../models/event.model';
 
 import "./EventCreator.css";
 
-function EventCreator() {
-    const [isModalOpen, setIsModalOpen] = useState(false)
+const EventCreator = () => {
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
     const dispatch = useDispatch();
 
-    function openModelHandler() {
-        setIsModalOpen(true);
-    }
-
-    async function onModalConfirmHandler(data) {
+    const onModalConfirmHandler = async (data: IEventRequest) => {
         try {
             const res = await fetch('http://localhost:3000/graphql', {
                 method: 'POST',
@@ -36,18 +33,13 @@ function EventCreator() {
         setIsModalOpen(false);
     }
 
-    function onModalCancelHandler() {
-        setIsModalOpen(false);
-    }
-
     return (
         <div className="event-control">
             <h3 className="headline-3">Share your own Events!</h3>
-            <button className="btn btn-primary" onClick={openModelHandler}>Create Event!</button>
-            {isModalOpen &&
-                <EventCreatorModal onModalCancelHandler={onModalCancelHandler}
-                                   onModalConfirmHandler={onModalConfirmHandler}
-                                   closeOnClickOutside/>}
+            <button className="btn btn-primary" onClick={ () => setIsModalOpen(true) }>Create Event!</button>
+            { isModalOpen &&
+                <EventCreatorModal onModalCancelHandler={ () => setIsModalOpen(false) }
+                                   onModalConfirmHandler={ onModalConfirmHandler }/> }
         </div>
     )
 }

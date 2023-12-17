@@ -8,17 +8,19 @@ import Spinner from "../../../components/Spinner/Spinner";
 import EmptyList from "../../../components/EmptyList/EmptyList";
 import EventCard from "../EventCard/EventCard";
 import EventDetailsModal from "../EventDetailsModal/EventDetailsModal";
+import { RootState } from '../../../store';
+import { IEventResponse } from '../models/event.model';
 
 import "./EventList.css"
 
-function EventList() {
-    const events = useSelector(state => state.events.data);
-    const authUserId = useSelector(state => state.auth.userId);
+const EventList = () => {
+    const events = useSelector(({ events: { data } }: RootState) => data);
+    const authUserId = useSelector(({ auth: { userId } }: RootState) => userId);
     const dispatch = useDispatch();
     const navigate = useNavigate()
-    const [isLoading, setLoading] = useState(false);
-    const [isModalOpen, setModalOpen] = useState(false);
-    const [currentEventDetails, setCurrentEventDetails] = useState(null);
+    const [isLoading, setLoading] = useState<boolean>(false);
+    const [isModalOpen, setModalOpen] = useState<boolean>(false);
+    const [currentEventDetails, setCurrentEventDetails] = useState<IEventResponse | null>(null);
 
     useEffect(() => {
         const loadEvents = async () => {
@@ -44,17 +46,17 @@ function EventList() {
         loadEvents().catch(console.error);
     }, [dispatch])
 
-    function onShowDetailHandler(eventInfo) {
+    const onShowDetailHandler = (eventInfo: IEventResponse) => {
         setModalOpen(true);
         setCurrentEventDetails(eventInfo);
     }
 
-    function onCloseDetailsHandler() {
+    const onCloseDetailsHandler = () => {
         setModalOpen(false);
         setCurrentEventDetails(null);
     }
 
-    async function onBookEventHandler(eventId) {
+    const onBookEventHandler = async (eventId: string) => {
         if (!authUserId) {
             navigate('/auth');
         }
@@ -75,22 +77,22 @@ function EventList() {
 
     return (
         <>
-            {isLoading ? <Spinner/> :
+            { isLoading ? <Spinner/> :
                 events.length === 0 ?
                     <EmptyList message="Unfortunately, we were unable to load the list of events"/> :
                     <div className="event-list">
-                        {events.map((eventInfo) => (
-                            <EventCard key={eventInfo._id}
-                                       eventInfo={eventInfo}
-                                       authUserId={authUserId}
-                                       onShowDetailHandler={onShowDetailHandler}
-                                       onBookEventHandler={onBookEventHandler}/>))}
-                    </div>}
-            {isModalOpen && currentEventDetails &&
-                <EventDetailsModal event={currentEventDetails}
-                                   authUserId={authUserId}
-                                   onCloseDetailsHandler={onCloseDetailsHandler}
-                                   onBookEventHandler={onBookEventHandler}/>}
+                        { events.map((eventInfo) => (
+                            <EventCard key={ eventInfo._id }
+                                       eventInfo={ eventInfo }
+                                       authUserId={ authUserId }
+                                       onShowDetailHandler={ onShowDetailHandler }
+                                       onBookEventHandler={ onBookEventHandler }/>)) }
+                    </div> }
+            { isModalOpen && currentEventDetails &&
+                <EventDetailsModal event={ currentEventDetails }
+                                   authUserId={ authUserId }
+                                   onCloseDetailsHandler={ onCloseDetailsHandler }
+                                   onBookEventHandler={ onBookEventHandler }/> }
         </>
 
     )

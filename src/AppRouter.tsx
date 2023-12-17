@@ -6,12 +6,13 @@ import { login } from "./state/auth.state";
 import App from "./App";
 import BookingsPage from './pages/Bookings/BookingsPage';
 import EventsPage from './pages/Events/EventsPage';
-import AuthPage from './pages/Auth';
+import AuthPage from './pages/Auth/AuthPage';
 import Spinner from "./components/Spinner/Spinner";
+import { RootState } from './store';
 
 const AppRouter = () => {
     const dispatch = useDispatch();
-    const isAuthorized = useSelector(state => state.auth.isAuthorized);
+    const isAuthorized = useSelector<RootState>(({ auth }) => auth.isAuthorized);
     const [isAppLoaded, setAppLoaded] = useState(false);
 
     const getRouter = () => createBrowserRouter([{
@@ -22,8 +23,8 @@ const AppRouter = () => {
             {
                 index: true,
                 element: <>
-                    {isAuthorized && <Navigate from="/auth" to="/events"> </Navigate>}
-                    {!isAuthorized && <Navigate from="/" to="/auth"></Navigate>}
+                    { isAuthorized && <Navigate to="/events"/> }
+                    { !isAuthorized && <Navigate to="/auth"/> }
                 </>
             },
             {
@@ -76,8 +77,8 @@ const AppRouter = () => {
 
 
     return (<>
-        {!isAppLoaded && <Spinner/>}
-        {isAppLoaded && <RouterProvider router={getRouter()}/>}
+        { !isAppLoaded && <Spinner/> }
+        { isAppLoaded && <RouterProvider router={ getRouter() }/> }
     </>)
 }
 

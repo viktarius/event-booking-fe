@@ -1,4 +1,6 @@
-export const getBookingListQuery = () => ({
+import { IGraphQlQuery } from './query.model';
+
+export const getBookingListQuery = (): IGraphQlQuery<null> => ({
     query: `
         query {
             bookings {

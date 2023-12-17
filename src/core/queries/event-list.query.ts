@@ -1,4 +1,6 @@
-export const getEventListQuery = () => ({
+import { IGraphQlQuery } from './query.model';
+
+export const getEventListQuery = (): IGraphQlQuery<null> => ({
     query: `
         query {
             events {
