@@ -3,10 +3,14 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { login } from "../../state/auth.state";
+import { container, TYPES } from '../../core/services/inversify.config';
+import { IAuthRequestService } from '../../core/services/auth-request.service';
+import { ILoginRequestBody, IRegisterRequestBody } from '../../core/models/request';
 
 import './AuthPage.css';
 
 const AuthPage = () => {
+    const authRequestService = container.get<IAuthRequestService>(TYPES.AuthRequestService);
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const confirmPasswordRef = useRef<HTMLInputElement>(null);
@@ -22,20 +26,11 @@ const AuthPage = () => {
             console.log('Passwords is not valid');
             return;
         }
-        const requestBody = isLogin ? getLoginQuery() : getSignupQuery();
+
         try {
-            const res = await fetch(`http://localhost:3000/${ isLogin ? 'login' : 'register' }`, {
-                method: 'POST',
-                body: JSON.stringify(requestBody),
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            if (res.status !== 200 && res.status !== 201) {
-                throw new Error('Failed')
-            }
-            const result = await res.json();
+            const result = isLogin ?
+                await authRequestService.login(getLoginQuery()) :
+                await authRequestService.register(getSignupQuery());
             const { isAuthorized, userId } = result;
             dispatch(login({ isAuthorized, userId }))
         } catch (err) {
@@ -43,12 +38,12 @@ const AuthPage = () => {
         }
     }
 
-    const getLoginQuery = (): { email: string; password: string } => ({
+    const getLoginQuery = (): ILoginRequestBody => ({
         email: emailRef.current?.value || "",
         password: passwordRef.current?.value || ""
     })
 
-    const getSignupQuery = () => ({
+    const getSignupQuery = (): IRegisterRequestBody => ({
         email: emailRef.current?.value || "",
         password: passwordRef.current?.value || "",
         name: nameRef.current?.value || "",
@@ -87,7 +82,8 @@ const AuthPage = () => {
                 <button className="btn btn-primary submit-btn" type="submit">{ isLogin ? 'Login' : 'Sign up' }</button>
                 <div className="form-view-toggler">
                     { isLogin ? 'Don\'t h' : 'H' }ave an account?
-                    <button type="button" onClick={ () => setIsLogin(!isLogin) }>{ isLogin ? 'Create new' : 'Login' }</button>
+                    <button type="button"
+                            onClick={ () => setIsLogin(!isLogin) }>{ isLogin ? 'Create new' : 'Login' }</button>
                 </div>
             </form>
             <div className="auth__other-auth-methods">

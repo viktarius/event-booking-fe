@@ -2,15 +2,17 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import { getBookingListQuery, cancelBookingQuery } from "../../../core/queries";
 import Spinner from "../../../components/Spinner/Spinner";
 import EmptyList from "../../../components/EmptyList/EmptyList";
 import BookingCard from "../BookingCard/BookingCard";
 import { IBooking } from '../models/booking.model';
 
 import './BookingList.css'
+import { container, TYPES } from '../../../core/services/inversify.config';
+import { IBookingRequestService } from '../../../core/services/booking-request.service';
 
 const BookingList = () => {
+    const bookingRequestService = container.get<IBookingRequestService>(TYPES.BookingRequestService);
     const [isLoading, setLoading] = useState<boolean>(false);
     const [bookings, setBookings] = useState<IBooking[]>([]);
 
@@ -18,20 +20,7 @@ const BookingList = () => {
         const loadBookings = async () => {
             try {
                 setLoading(true);
-                const res = await fetch('http://localhost:3000/graphql', {
-                    method: 'POST',
-                    body: JSON.stringify(getBookingListQuery()),
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    credentials: 'include',
-                })
-                // TODO: use this approach in other places
-                const result = await res.json();
-                if (res.status !== 200) {
-                    throw new Error(result.errors[0].message);
-                }
-                const { data: { bookings } } = result;
+                const { data: { bookings } } = await bookingRequestService.getBookings();
                 setBookings(bookings);
             } catch (err) {
                 console.error(err)
@@ -44,18 +33,9 @@ const BookingList = () => {
 
     const onCancelHandler = async (bookingId: string) => {
         try {
-            const res = await fetch('http://localhost:3000/graphql', {
-                method: 'POST',
-                body: JSON.stringify(cancelBookingQuery({ bookingId })),
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                credentials: 'include',
-            })
-            const result = await res.json();
-            if (res.status !== 200) {
-                throw new Error(result.errors[0].message);
-            }
+            const result = await bookingRequestService.cancelBooking(bookingId);
+            //  TODO: use notification service here to notify user about cancel booking
+            console.log(result);
             setBookings(bookings.filter((booking) => booking._id !== bookingId));
         } catch (err) {
             console.error(err)

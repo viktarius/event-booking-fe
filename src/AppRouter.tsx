@@ -9,8 +9,11 @@ import EventsPage from './pages/Events/EventsPage';
 import AuthPage from './pages/Auth/AuthPage';
 import Spinner from "./components/Spinner/Spinner";
 import { RootState } from './store';
+import { container, TYPES } from './core/services/inversify.config';
+import { IAuthRequestService } from './core/services/auth-request.service';
 
 const AppRouter = () => {
+    const authRequestService = container.get<IAuthRequestService>(TYPES.AuthRequestService);
     const dispatch = useDispatch();
     const isAuthorized = useSelector<RootState>(({ auth }) => auth.isAuthorized);
     const [isAppLoaded, setAppLoaded] = useState(false);
@@ -57,12 +60,7 @@ const AppRouter = () => {
     useEffect(() => {
         const authCheck = async () => {
             try {
-                const res = await fetch('http://localhost:3000/auth', {
-                    method: 'GET',
-                    credentials: 'include',
-                })
-
-                const result = await res.json();
+                const result = await authRequestService.auth();
                 const { isAuthorized, userId } = result;
                 dispatch(login({ isAuthorized, userId }))
             } catch (err) {

@@ -1,12 +1,12 @@
 import React from "react";
-import { IEventResponse } from '../models/event.model';
+import { IEvent } from '../models/event.model';
 
 import "./EventCard.css";
 
 interface EventCardProps {
-    eventInfo: IEventResponse;
+    eventInfo: IEvent;
     authUserId: string | null;
-    onShowDetailHandler: (eventInfo: IEventResponse) => void;
+    onShowDetailHandler: (eventInfo: IEvent) => void;
     onBookEventHandler: (eventId: string) => void
 }
 

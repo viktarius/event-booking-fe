@@ -2,42 +2,36 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { getEventListQuery, bookEventQuery } from "../../../core/queries";
 import { setEvents } from "../../../state/events.state";
 import Spinner from "../../../components/Spinner/Spinner";
 import EmptyList from "../../../components/EmptyList/EmptyList";
 import EventCard from "../EventCard/EventCard";
 import EventDetailsModal from "../EventDetailsModal/EventDetailsModal";
 import { RootState } from '../../../store';
-import { IEventResponse } from '../models/event.model';
+import { IEvent } from '../models/event.model';
+import { container, TYPES } from '../../../core/services/inversify.config';
+import { IEventRequestService } from '../../../core/services/event-request.service';
 
 import "./EventList.css"
+import { IBookingRequestService } from '../../../core/services/booking-request.service';
 
 const EventList = () => {
+    const bookingRequestService = container.get<IBookingRequestService>(TYPES.BookingRequestService);
+    const eventRequestService = container.get<IEventRequestService>(TYPES.EventRequestService);
     const events = useSelector(({ events: { data } }: RootState) => data);
     const authUserId = useSelector(({ auth: { userId } }: RootState) => userId);
     const dispatch = useDispatch();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const [isLoading, setLoading] = useState<boolean>(false);
     const [isModalOpen, setModalOpen] = useState<boolean>(false);
-    const [currentEventDetails, setCurrentEventDetails] = useState<IEventResponse | null>(null);
+    const [currentEventDetails, setCurrentEventDetails] = useState<IEvent | null>(null);
 
     useEffect(() => {
         const loadEvents = async () => {
             try {
                 setLoading(true);
-                const res = await fetch('http://localhost:3000/graphql', {
-                    method: 'POST',
-                    body: JSON.stringify(getEventListQuery()),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    credentials: 'include'
-                })
-                if (res.status !== 200 && res.status !== 201) {
-                    throw new Error('Failed')
-                }
-                const { data: { events } } = await res.json();
+                const { data: { events } } = await eventRequestService.getEvents();
+                // TODO: add typing for action setEvents
                 dispatch(setEvents(events));
             } finally {
                 setLoading(false);
@@ -46,7 +40,7 @@ const EventList = () => {
         loadEvents().catch(console.error);
     }, [dispatch])
 
-    const onShowDetailHandler = (eventInfo: IEventResponse) => {
+    const onShowDetailHandler = (eventInfo: IEvent) => {
         setModalOpen(true);
         setCurrentEventDetails(eventInfo);
     }
@@ -61,14 +55,9 @@ const EventList = () => {
             navigate('/auth');
         }
         try {
-            await fetch('http://localhost:3000/graphql', {
-                method: 'POST',
-                body: JSON.stringify(bookEventQuery({ eventId })),
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                credentials: 'include',
-            })
+            const result = await bookingRequestService.bookEvent(eventId);
+            // TODO: use notification service here to notify user about booking
+            console.log(result)
         } catch (err) {
             console.error(err)
         }

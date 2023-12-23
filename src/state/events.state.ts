@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { IEventResponse } from '../pages/Events/models/event.model';
+import { IEvent } from '../pages/Events/models/event.model';
 
 interface EventState {
-    data: IEventResponse[];
+    data: IEvent[];
 }
 
 const initialState: EventState = {

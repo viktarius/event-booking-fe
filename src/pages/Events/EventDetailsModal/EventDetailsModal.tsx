@@ -1,10 +1,10 @@
 import React from "react";
 
 import Modal from "../../../components/Modal/Modal";
-import { IEventResponse } from '../models/event.model';
+import { IEvent } from '../models/event.model';
 
 interface EventDetailsModalProps {
-    event: IEventResponse;
+    event: IEvent;
     authUserId: string | null;
     onBookEventHandler: (eventId: string) => void;
     onCloseDetailsHandler: () => void;
