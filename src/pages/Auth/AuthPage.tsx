@@ -2,10 +2,10 @@ import React, { FormEvent, useRef, useState } from 'react';
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { login } from "../../state/auth.state";
-import { container, TYPES } from '../../core/services/inversify.config';
-import { IAuthRequestService } from '../../core/services/auth-request.service';
-import { ILoginRequestBody, IRegisterRequestBody } from '../../core/models/request';
+import { login } from "@eb-state/auth.state";
+import { container, TYPES } from '@eb-core/services/inversify.config';
+import { IAuthRequestService } from '@eb-core/services/auth-request.service';
+import { ILoginRequestBody, IRegisterRequestBody } from '@eb-core/models/request';
 
 import './AuthPage.css';
 

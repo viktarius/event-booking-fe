@@ -1,6 +1,6 @@
 import React from 'react';
+import { formatDateTime } from "@eb-core/utils/format-date-time";
 import { IBooking } from '../models/booking.model';
-import { formatDateTime } from "../../../core/utils/format-date-time";
 
 import './BookingCard.css';
 

@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@craco/craco": "^7.1.0",
     "@types/jest": "^29.5.11",
     "@types/node": "^20.10.4",
     "@types/react": "^18.2.45",
@@ -25,9 +26,8 @@
     "typescript": "^5.3.3"
   },
   "scripts": {
-    "start": "set PORT=4000 && react-scripts start",
-    "build": "react-scripts build",
-    "eject": "react-scripts eject"
+    "start": "set PORT=4000 && craco start",
+    "build": "craco build"
   },
   "author": "Viktar Belski",
   "eslintConfig": {

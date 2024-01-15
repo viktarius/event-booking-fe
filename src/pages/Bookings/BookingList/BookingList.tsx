@@ -2,14 +2,14 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import Spinner from "../../../components/Spinner/Spinner";
-import EmptyList from "../../../components/EmptyList/EmptyList";
+import Spinner from "@eb-components/Spinner/Spinner";
+import EmptyList from "@eb-components/EmptyList/EmptyList";
+import { container, TYPES } from '@eb-core/services/inversify.config';
+import { IBookingRequestService } from '@eb-core/services/booking-request.service';
 import BookingCard from "../BookingCard/BookingCard";
 import { IBooking } from '../models/booking.model';
 
 import './BookingList.css'
-import { container, TYPES } from '../../../core/services/inversify.config';
-import { IBookingRequestService } from '../../../core/services/booking-request.service';
 
 const BookingList = () => {
     const bookingRequestService = container.get<IBookingRequestService>(TYPES.BookingRequestService);

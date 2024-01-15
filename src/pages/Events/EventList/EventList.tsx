@@ -2,18 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { setEvents } from "../../../state/events.state";
-import Spinner from "../../../components/Spinner/Spinner";
-import EmptyList from "../../../components/EmptyList/EmptyList";
+import { setEvents } from "@eb-state/events.state";
+import Spinner from "@eb-components/Spinner/Spinner";
+import EmptyList from "@eb-components/EmptyList/EmptyList";
+import { container, TYPES } from '@eb-core/services/inversify.config';
+import { IEventRequestService } from '@eb-core/services/event-request.service';
+import { IBookingRequestService } from '@eb-core/services/booking-request.service';
 import EventCard from "../EventCard/EventCard";
 import EventDetailsModal from "../EventDetailsModal/EventDetailsModal";
 import { RootState } from '../../../store';
 import { IEvent } from '../models/event.model';
-import { container, TYPES } from '../../../core/services/inversify.config';
-import { IEventRequestService } from '../../../core/services/event-request.service';
 
 import "./EventList.css"
-import { IBookingRequestService } from '../../../core/services/booking-request.service';
 
 const EventList = () => {
     const bookingRequestService = container.get<IBookingRequestService>(TYPES.BookingRequestService);

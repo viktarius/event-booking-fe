@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 
-import MainNavigation from "./components/Navigation/MainNavigation";
+import MainNavigation from "@eb-components/Navigation/MainNavigation";
 
 import './App.css';
 

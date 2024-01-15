@@ -3,6 +3,7 @@
   "display": "Create React App",
   "_version": "2.0.0",
   "compilerOptions": {
+    "baseUrl": "./",
     "lib": [
       "dom",
       "dom.iterable",
@@ -24,7 +25,21 @@
     "strict": true,
     "types": ["reflect-metadata"],
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "paths": {
+      "@eb-pages/*": [
+        "src/pages/*"
+      ],
+      "@eb-components/*": [
+        "src/components/*"
+      ],
+      "@eb-core/*": [
+        "src/core/*"
+      ],
+      "@eb-state/*": [
+        "src/state/*"
+      ]
+    }
   },
   "include": [
     "src"

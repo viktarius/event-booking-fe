@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 
-import Modal from "../../../components/Modal/Modal";
+import Modal from "@eb-components/Modal/Modal";
 import { IEventRequest } from '../models/event.model';
 
 interface EventCreatorModalProps {

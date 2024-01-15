@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { addEvent } from "../../../state/events.state";
+import { addEvent } from "@eb-state/events.state";
+import { container, TYPES } from '@eb-core/services/inversify.config';
+import { IEventRequestService } from '@eb-core/services/event-request.service';
 import EventCreatorModal from "../EventCreatorModal/EventCreatorModal";
 import { IEventRequest } from '../models/event.model';
-import { container, TYPES } from '../../../core/services/inversify.config';
-import { IEventRequestService } from '../../../core/services/event-request.service';
 
 import "./EventCreator.css";
 

@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import { logout } from "../../state/auth.state";
+import { logout } from "@eb-state/auth.state";
 import { RootState } from '../../store';
 
 import './MainNavigation.css';

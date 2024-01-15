@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { createBrowserRouter, Navigate, redirect, RouterProvider } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 
-import { login } from "./state/auth.state";
+import AuthPage from '@eb-pages/Auth/AuthPage';
+import EventsPage from '@eb-pages/Events/EventsPage';
+import BookingsPage from '@eb-pages/Bookings/BookingsPage';
+import Spinner from "@eb-components/Spinner/Spinner";
+import { container, TYPES } from '@eb-core/services/inversify.config';
+import { IAuthRequestService } from '@eb-core/services/auth-request.service';
+import { login } from "@eb-state/auth.state";
 import App from "./App";
-import BookingsPage from './pages/Bookings/BookingsPage';
-import EventsPage from './pages/Events/EventsPage';
-import AuthPage from './pages/Auth/AuthPage';
-import Spinner from "./components/Spinner/Spinner";
 import { RootState } from './store';
-import { container, TYPES } from './core/services/inversify.config';
-import { IAuthRequestService } from './core/services/auth-request.service';
 
 const AppRouter = () => {
     const authRequestService = container.get<IAuthRequestService>(TYPES.AuthRequestService);
